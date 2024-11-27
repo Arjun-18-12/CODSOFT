@@ -1,0 +1,150 @@
+HTML PROGRAM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Recommendation System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Movie Recommendation System</h1>
+    <p>Select your favorite genres, and we'll recommend movies for you!</p>
+
+    <!-- User preferences -->
+    <div class="preferences">
+      <label><input type="checkbox" value="Action" /> Action</label>
+      <label><input type="checkbox" value="Comedy" /> Comedy</label>
+      <label><input type="checkbox" value="Drama" /> Drama</label>
+      <label><input type="checkbox" value="Horror" /> Horror</label>
+      <label><input type="checkbox" value="Sci-Fi" /> Sci-Fi</label>
+    </div>
+
+    <!-- Button to get recommendations -->
+    <button id="recommendBtn">Get Recommendations</button>
+
+    <!-- Recommendations display -->
+    <div id="recommendations" class="recommendations">
+      <h2>Recommended Movies</h2>
+      <ul id="recommendationList"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+CSS PROGRAM
+/* style.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #333;
+}
+
+.container {
+  width: 80%;
+  margin: 20px auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #4caf50;
+}
+
+.preferences label {
+  margin-right: 15px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background: #4caf50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+.recommendations {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.recommendations ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.recommendations ul li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #e8f5e9;
+  border-left: 5px solid #4caf50;
+  border-radius: 3px;
+}
+JAVA SCRIPT
+// script.js
+
+// Dataset of movies
+const movies = [
+  { title: "Inception", genre: ["Action", "Sci-Fi"] },
+  { title: "The Dark Knight", genre: ["Action", "Drama"] },
+  { title: "Interstellar", genre: ["Sci-Fi", "Drama"] },
+  { title: "The Conjuring", genre: ["Horror"] },
+  { title: "The Hangover", genre: ["Comedy"] },
+  { title: "The Shawshank Redemption", genre: ["Drama"] },
+  { title: "Get Out", genre: ["Horror", "Drama"] },
+  { title: "Guardians of the Galaxy", genre: ["Action", "Comedy", "Sci-Fi"] },
+];
+
+// Function to get selected preferences
+function getSelectedGenres() {
+  const checkboxes = document.querySelectorAll('.preferences input[type="checkbox"]:checked');
+  const selectedGenres = Array.from(checkboxes).map((checkbox) => checkbox.value);
+  return selectedGenres;
+}
+
+// Function to recommend movies
+function recommendMovies(selectedGenres) {
+  // Filter movies that match the selected genres
+  const recommended = movies.filter((movie) =>
+    movie.genre.some((genre) => selectedGenres.includes(genre))
+  );
+  return recommended;
+}
+
+// Function to display recommendations
+function displayRecommendations(recommendedMovies) {
+  const recommendationList = document.getElementById("recommendationList");
+  recommendationList.innerHTML = ""; // Clear previous recommendations
+
+  if (recommendedMovies.length === 0) {
+    recommendationList.innerHTML = "<li>No recommendations available. Try selecting different genres.</li>";
+    return;
+  }
+
+  recommendedMovies.forEach((movie) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = movie.title + " (" + movie.genre.join(", ") + ")";
+    recommendationList.appendChild(listItem);
+  });
+}
+
+// Event listener for the button
+document.getElementById("recommendBtn").addEventListener("click", () => {
+  const selectedGenres = getSelectedGenres();
+  const recommendedMovies = recommendMovies(selectedGenres);
+  displayRecommendations(recommendedMovies);
+});
