@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void chatbot() {
+    string userInput;
+    cout << "Chatbot: Hello! I am a simple chatbot. Ask me anything, or type 'exit' to end the conversation.\n";
+
+    while (true) {
+        cout << "You: ";
+        getline(cin, userInput);
+
+        // Convert input to lowercase (optional for case-insensitive matching)
+        for (char& c : userInput) c = tolower(c);
+
+        // Check user input and provide responses
+        if (userInput == "hi" || userInput == "hello") {
+            cout << "Chatbot: Hello! How can I assist you today?\n";
+        } else if (userInput == "how are you") {
+            cout << "Chatbot: I'm just a program, but I'm functioning as expected! How about you?\n";
+        } else if (userInput == "what is your name") {
+            cout << "Chatbot: I am your friendly chatbot. What's your name?\n";
+        } else if (userInput == "what can you do") {
+            cout << "Chatbot: I can answer basic questions. Try asking me about myself or programming concepts.\n";
+        } else if (userInput.find("bye") != string::npos) {
+            cout << "Chatbot: Goodbye! Have a great day!\n";
+            break;
+        } else if (userInput.find("exit") != string::npos) {
+            cout << "Chatbot: Exiting the chat. See you soon!\n";
+            break;
+        } else {
+            cout << "Chatbot: I'm sorry, I don't understand that. Could you rephrase?\n";
+        }
+    }
+}
+
+int main() {
+    chatbot();
+    return 0;
+}
